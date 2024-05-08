@@ -1,18 +1,21 @@
 import React from 'react'
-import { DocsThemeConfig } from 'nextra-theme-docs'
+import {DocsThemeConfig} from 'nextra-theme-docs'
 
 const config: DocsThemeConfig = {
-  logo: <span>My Project</span>,
-  project: {
-    link: 'https://github.com/shuding/nextra-docs-template',
-  },
-  chat: {
-    link: 'https://discord.com',
-  },
-  docsRepositoryBase: 'https://github.com/shuding/nextra-docs-template',
-  footer: {
-    text: 'Nextra Docs Template',
-  },
+    logo: <span>Non-Greedy Algorithm for Trees</span>,
+    project: {
+        link: 'https://github.com/CiciHuang0000/2650nongreedytrees',
+    },
+    docsRepositoryBase: 'https://github.com/CiciHuang0000/2650nongreedytrees',
+    footer: {
+        text: 'CiCi Huang',
+    },
+    editLink: {
+        component: null,
+    },
+    feedback: {
+        content: null,
+    },
 }
 
 export default config
