@@ -1,15 +1,13 @@
 {
-  "index": "Overview",
+  "index": "Introduction",
   "basics": "Basics of Decision Trees",
   "algorithm": "Algorithm",
+  "experiment": "Experiment",
+  "conclusion": "Conclusion",
+  "related": "Related Work",
+  "reference": "reference",
   "about": {
     "title": "About",
     "type": "page"
-  },
-  "contact": {
-    "title": "Contact ↗",
-    "type": "page",
-    "href": "https://twitter.com/shuding_",
-    "newWindow": true
   }
 }
