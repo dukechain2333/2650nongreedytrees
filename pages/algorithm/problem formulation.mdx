@@ -1,1 +1,33 @@
+The paper focuses on binary classification trees as structures with internal nodes (nodes with children) that direct data to one of the leaf nodes (nodes without children). Each internal node performs a binary test using a **split function**, determining whether to send the data point to the left or right child node. The leaf nodes then classify the data point based on **predetermined parameters**.
 
+**Tree Structure Set Up**
+
+The tree has $m$ internal nodes and $m+1$ leaf nodes. An input $x \in \mathbb{R}^p$ is directed from the root of the tree. Each internal $m$ node, indexed by $i \in \{1,...,m\}$, performs a binary test by evaluating a node-specific split function $s_i(x): \mathbb{R} \rightarrow \{-1, +1\}$. That is, if $s_i(x)$ evaluates to -1, then $x$ is directed to the left child of node $i$. Otherwise, $x$ is directed to the right child. The split function uses linear threshold functions and is defined as $\text{sgn}(\mathbf{w}_i^T \mathbf{x} - b_i)$, where $\mathbf{w}_i$ is a weight vector.
+
+Then each leaf node, indexed by $j \in \{1, \ldots, m+1\}$, specifies a conditional probability distribution $p(y = l \mid j)$ over class labels $l \in \{1, \ldots, k\}$. It's parametrized with a vector of unnormalized predictive log-probabilities, $\mathbf{\theta}_j \in \mathbb{R}^k$ and a softmax function:
+
+$$
+p(y = l \mid j) = \frac{\exp\{\theta_{j[l]\}}}{\sum_{\alpha = 1}^{k} \exp\{\theta_{j[\alpha]\}}}
+$$
+
+where $\theta_{j[\alpha]}$ denotes the $\alpha^{th}$ element of vector $\mathbf{\theta}_j$.
+
+Therefore, we get our weight matrix for the entire tree to be $W \in \mathbb{R}^{m \times p}$ and the unnormalized log-probabilities matrix to be $\Theta \in \mathbb{R}^{(m+1) \times k}$, whose rows comprise weight vectors and leaf parameters.
+
+**Optimization Goal**
+
+Given a dataset of input-output pairs, $D: \{x_z,y_z\}_{z=1}^n$, where $y_z \in \{1,...,k\}$ is the truth class label associated with input $x$. Here, we wish to find $W$ and $\Theta$ that minimize misclassification loss on the training set. However, the joint optimization of the split functions and leaf parameters is known to be extremely challenging due to discrete, sequential nature of decisions in trees.
+
+**Latent Structured Prediction**
+
+So how can we evaluate the loss? One key idea here is to establish a link between the decision tree optimization problem and the problem of structured prediction with **latent variables**. One can evaluate all of the split functions for every internal node of the tree on input $x$ by computing $\text{sgn}(W\mathbf{x})$ where $\text{sgn}(\cdot)$ is the element-wise sign function. Therefore, we can link decision trees learning to latent structured prediction by thinking an $m$-bit vector of potential split decisions, e.g., $\mathbf{h}=\text{sgn}(Wx) \in \{-1,+1\}$, as a latent variable. The latent variable then determines the leaf to which a data point is directed, and then classified using the leaf parameters. To formulate the loss, we introduce a tree navigation function $f: \mathbb{H}^m \rightarrow \mathbb{I}_{(m+1)}$ that maps an $m$-bit sequence of split decisions to an indicator vector that specifies a 1-of-$(m+1)$ encoding. That is, each internal node can be represented by this binary indicator vector, forming a latent variable that defines the path to a specific leaf node. The classification loss is computed based on the final leaf node reached.
+
+**Challenge in Directly Optimizing Empirical Loss**
+
+Using the notations, we define $\mathbf{\theta} = \Theta^T f(\text{sgn}(W\mathbf{x}))$ to represent the parameters corresponding to the leaf to which $\mathbf{x}$ is directed by the split functions in $\mathbf{W}$. A natural choice for the loss function would be the squared loss in regression, which is defined as $l(\mathbf{\theta}, y) = (\mathbf{\theta} - y)^2$. Given a training set $\mathbf{D}$, we try to minimize:
+
+$$
+L(\mathbf{W}, \Theta, \mathbf{D}) = \sum_{(\mathbf{x},y) \in \mathbf{D}} l(\Theta^T f (\text{sgn}(\mathbf{Wx})),y)
+$$
+
+However, direct global optimization of this empirical loss is challenging. 
