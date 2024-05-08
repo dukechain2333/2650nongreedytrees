@@ -1,7 +1,7 @@
 {
   "index": "Overview",
-  "another": "Basics of Decision Trees",
-  "advanced": "Algorithm",
+  "basics": "Basics of Decision Trees",
+  "algorithm": "Algorithm",
   "about": {
     "title": "About",
     "type": "page"
