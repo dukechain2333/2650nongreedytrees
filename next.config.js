@@ -4,3 +4,6 @@ const withNextra = require('nextra')({
 })
 
 module.exports = withNextra()
+module.exports = require('nextra')({
+  latex: true
+})
