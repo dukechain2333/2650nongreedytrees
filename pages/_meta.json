@@ -1,6 +1,9 @@
 {
   "index": "Introduction",
-  "basics": "Basics of Decision Trees",
+  "basics": {
+    "title": "Basics of Decision Trees",
+    "type": "page"
+  },
   "algorithm": "Algorithm",
   "experiment": "Experiment",
   "conclusion": "Conclusion",
